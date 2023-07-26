@@ -1,13 +1,11 @@
 package com.spring.labs.domain.web.controller;
 
 import com.spring.labs.domain.service.controller.PostService;
+import com.spring.labs.domain.web.dto.PostDto;
 import com.spring.labs.util.ResponseData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/post")
@@ -25,6 +23,11 @@ public class PostRestController {
     @GetMapping("/{id}")
     public ResponseData.ApiResult<?> showPostById(@PathVariable Long id) {
         return ResponseData.success(service.findById(id), "조회 완료");
+    }
+
+    @PostMapping("")
+    public ResponseData.ApiResult<?> createNewPost(@RequestBody PostDto dto) {
+        return ResponseData.success(service.savePost(dto), "저장 성공");
     }
 
 }
