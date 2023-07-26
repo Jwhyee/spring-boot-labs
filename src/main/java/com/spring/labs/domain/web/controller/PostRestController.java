@@ -32,7 +32,13 @@ public class PostRestController {
 
     @PutMapping("/{id}")
     public ResponseData.ApiResult<?> updatePostById(@PathVariable Long id, @RequestBody PostDto dto) {
-        return ResponseData.success(service.updateById(id, dto), "조회 완료");
+        return ResponseData.success(service.updateById(id, dto), "수정 완료");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseData.ApiResult<?> deletePostById(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseData.success(null, "삭제 완료");
     }
 
 }

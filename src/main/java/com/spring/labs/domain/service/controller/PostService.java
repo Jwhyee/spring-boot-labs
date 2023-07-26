@@ -42,4 +42,9 @@ public class PostService {
         currentPost.updateBasicInfo(dto);
         return currentPost;
     }
+
+    public void deleteById(Long id) {
+        Post currentPost = findById(id);
+        repository.delete(currentPost);
+    }
 }
