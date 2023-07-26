@@ -30,4 +30,9 @@ public class PostRestController {
         return ResponseData.success(service.savePost(dto), "저장 성공");
     }
 
+    @PutMapping("/{id}")
+    public ResponseData.ApiResult<?> updatePostById(@PathVariable Long id, @RequestBody PostDto dto) {
+        return ResponseData.success(service.updateById(id, dto), "조회 완료");
+    }
+
 }

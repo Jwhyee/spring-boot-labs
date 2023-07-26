@@ -1,5 +1,6 @@
 package com.spring.labs.domain.entity.post;
 
+import com.spring.labs.domain.web.dto.PostDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,4 +21,9 @@ public class Post {
     private String title;
 
     private String content;
+
+    public void updateBasicInfo(PostDto dto) {
+        title = dto.title();
+        content = dto.content();
+    }
 }
