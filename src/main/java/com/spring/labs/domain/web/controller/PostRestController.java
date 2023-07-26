@@ -2,6 +2,7 @@ package com.spring.labs.domain.web.controller;
 
 import com.spring.labs.domain.entity.post.Post;
 import com.spring.labs.domain.service.controller.PostService;
+import com.spring.labs.domain.web.controller.api.NaverSearchApi;
 import com.spring.labs.domain.web.dto.PostDto;
 import com.spring.labs.util.ResponseData;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/post")
@@ -17,6 +19,7 @@ import java.util.List;
 public class PostRestController {
 
     private final PostService service;
+    private final NaverSearchApi naverSearchApi;
 
     @GetMapping("")
     public ResponseData.ApiResult<List<PostDto>> showAllPosts() {
@@ -27,7 +30,9 @@ public class PostRestController {
 
     @GetMapping("/{id}")
     public ResponseData.ApiResult<PostDto> showPostById(@PathVariable Long id) {
-        return ResponseData.success(service.findById(id).of(), "조회 완료");
+        PostDto dto = service.findById(id).of();
+        List<Map<String, String>> sim = naverSearchApi.getResult(dto.title(), 5, "sim");
+        return ResponseData.success(dto.clone(sim), "조회 완료");
     }
 
     @PostMapping("")

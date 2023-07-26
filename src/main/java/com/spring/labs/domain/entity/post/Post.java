@@ -28,6 +28,6 @@ public class Post {
     }
 
     public PostDto of() {
-        return new PostDto(id, title, content);
+        return new PostDto(id, title, content, null);
     }
 }
