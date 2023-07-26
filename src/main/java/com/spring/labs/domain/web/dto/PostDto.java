@@ -1,4 +1,4 @@
 package com.spring.labs.domain.web.dto;
 
-public record PostDto(String title, String content) {
+public record PostDto(Long id, String title, String content) {
 }

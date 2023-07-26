@@ -26,4 +26,8 @@ public class Post {
         title = dto.title();
         content = dto.content();
     }
+
+    public PostDto of() {
+        return new PostDto(id, title, content);
+    }
 }

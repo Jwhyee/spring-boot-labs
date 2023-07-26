@@ -1,5 +1,6 @@
 package com.spring.labs.domain.web.controller;
 
+import com.spring.labs.domain.entity.post.Post;
 import com.spring.labs.domain.service.controller.PostService;
 import com.spring.labs.domain.web.dto.PostDto;
 import com.spring.labs.util.ResponseData;
@@ -17,22 +18,24 @@ public class PostRestController {
 
     @GetMapping("")
     public ResponseData.ApiResult<?> showAllPosts() {
-        return ResponseData.success(service.findAll(), "조회 완료");
+        return ResponseData.success(service.findAll().stream()
+                .map(Post::of)
+                .toList(), "조회 완료");
     }
 
     @GetMapping("/{id}")
     public ResponseData.ApiResult<?> showPostById(@PathVariable Long id) {
-        return ResponseData.success(service.findById(id), "조회 완료");
+        return ResponseData.success(service.findById(id).of(), "조회 완료");
     }
 
     @PostMapping("")
     public ResponseData.ApiResult<?> createNewPost(@RequestBody PostDto dto) {
-        return ResponseData.success(service.savePost(dto), "저장 성공");
+        return ResponseData.success(service.savePost(dto).of(), "저장 성공");
     }
 
     @PutMapping("/{id}")
     public ResponseData.ApiResult<?> updatePostById(@PathVariable Long id, @RequestBody PostDto dto) {
-        return ResponseData.success(service.updateById(id, dto), "수정 완료");
+        return ResponseData.success(service.updateById(id, dto).of(), "수정 완료");
     }
 
     @DeleteMapping("/{id}")
