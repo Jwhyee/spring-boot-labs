@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,6 +26,7 @@ public class Post {
     private String content;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @Setter
     private Set<Tag> tag = new LinkedHashSet<>();
 
     public void updateBasicInfo(PostDto dto) {
@@ -32,6 +35,10 @@ public class Post {
     }
 
     public PostDto of() {
-        return new PostDto(id, title, content, tag.toString(),null);
+        List<String> tagList = new LinkedList<>();
+        tag.forEach(t -> {
+            tagList.add(t.getName());
+        });
+        return new PostDto(id, title, content, tagList.toString(),null);
     }
 }

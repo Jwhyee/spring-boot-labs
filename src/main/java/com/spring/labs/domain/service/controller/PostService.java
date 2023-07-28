@@ -10,10 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -35,23 +33,30 @@ public class PostService {
 
     @Transactional
     public Post savePost(PostDto dto) {
-        return repository.save(Post.builder()
+        Set<Tag> tagSet = getTagFromString(dto.tag());
+        Post newPost = Post.builder()
                 .title(dto.title())
-                .tag(getTagFromString(dto.tag()))
                 .content(dto.content())
-                .build());
+                .tag(tagSet)
+                .build();
+
+        for (Tag tag : tagSet) {
+            tag.setPost(newPost);
+        }
+
+        return repository.save(newPost);
     }
 
     @Transactional
-    public Set<Tag> getTagFromString(String s) {
-        Set<Tag> tagSet = new LinkedHashSet<>();
-        String[] tags = s.split(",");
-        for (String tag : tags) {
-            tagSet.add(Tag.builder()
-                    .name(tag.trim())
-                    .build());
-        }
-        return tagSet;
+    public Set<Tag> getTagFromString(String tag) {
+        Set<String> strSet = Arrays.stream(tag.split(","))
+                .map(String::trim)
+                .map(String::toUpperCase)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        return strSet.stream()
+                .map(tagName -> Tag.builder().name(tagName).build())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Transactional

@@ -9,6 +9,7 @@ import lombok.*;
 
 @Entity
 @Builder
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString(exclude = "post")
@@ -20,5 +21,6 @@ public class Tag {
     private String name;
 
     @ManyToOne
+    @Setter
     private Post post;
 }
