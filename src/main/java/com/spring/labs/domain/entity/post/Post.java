@@ -1,9 +1,11 @@
 package com.spring.labs.domain.entity.post;
 
+import com.spring.labs.domain.entity.base.BaseEntity;
 import com.spring.labs.domain.entity.tag.Tag;
 import com.spring.labs.domain.web.dto.PostDto;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -12,10 +14,10 @@ import java.util.Set;
 
 @Entity
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Post {
+public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +41,6 @@ public class Post {
         tag.forEach(t -> {
             tagList.add(t.getName());
         });
-        return new PostDto(id, title, content, tagList.toString(),null);
+        return new PostDto(id, title, content, tagList.toString(),null, getCreateDate(), getModifyDate());
     }
 }
