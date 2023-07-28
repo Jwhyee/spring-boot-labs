@@ -22,8 +22,9 @@ public class PostRestController {
     private final NaverSearchApi naverSearchApi;
 
     @GetMapping("")
-    public ResponseData.ApiResult<List<PostDto>> showAllPosts() {
-        return ResponseData.success(service.findAll().stream()
+    public ResponseData.ApiResult<List<PostDto>> showAllPosts(@RequestParam(value = "page", defaultValue = "0", required = false) int page) {
+
+        return ResponseData.success(service.findAll(page).stream()
                 .map(Post::of)
                 .toList(), "조회 완료");
     }
