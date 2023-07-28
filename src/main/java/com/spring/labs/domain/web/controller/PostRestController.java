@@ -1,7 +1,7 @@
 package com.spring.labs.domain.web.controller;
 
 import com.spring.labs.domain.entity.post.Post;
-import com.spring.labs.domain.service.controller.PostService;
+import com.spring.labs.domain.service.PostService;
 import com.spring.labs.domain.web.controller.api.NaverSearchApi;
 import com.spring.labs.domain.web.dto.PostDto;
 import com.spring.labs.util.ResponseData;

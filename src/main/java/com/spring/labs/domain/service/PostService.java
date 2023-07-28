@@ -1,4 +1,4 @@
-package com.spring.labs.domain.service.controller;
+package com.spring.labs.domain.service;
 
 import com.spring.labs.domain.entity.post.Post;
 import com.spring.labs.domain.entity.post.PostRepository;
