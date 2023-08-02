@@ -22,17 +22,18 @@ public class PostRestController {
     private final NaverSearchApi naverSearchApi;
 
     @GetMapping("")
-    public ResponseData.ApiResult<List<PostDto>> showAllPosts() {
-        return ResponseData.success(service.findAll().stream()
+    public ResponseData.ApiResult<List<PostDto>> showAllPosts(@RequestParam(value = "page", defaultValue = "0", required = false) int page) {
+
+        return ResponseData.success(service.findAll(page).stream()
                 .map(Post::of)
                 .toList(), "조회 완료");
     }
 
     @GetMapping("/{id}")
     public ResponseData.ApiResult<PostDto> showPostById(@PathVariable Long id) {
-        PostDto dto = service.findById(id).of();
-        List<Map<String, String>> sim = naverSearchApi.getResult(dto.title(), 5, "sim");
-        return ResponseData.success(dto.clone(sim), "조회 완료");
+        Post currentPost = service.findById(id);
+        List<Map<String, String>> sim = naverSearchApi.getResult(currentPost.getTitle(), 5, "sim");
+        return ResponseData.success(currentPost.of().clone(sim), "조회 완료");
     }
 
     @PostMapping("")

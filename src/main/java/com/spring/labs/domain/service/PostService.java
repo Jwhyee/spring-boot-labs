@@ -7,6 +7,9 @@ import com.spring.labs.domain.web.dto.PostDto;
 import com.spring.labs.domain.web.exception.IdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +24,9 @@ public class PostService {
     private final PostRepository repository;
 
     @Transactional(readOnly = true)
-    public List<Post> findAll() {
-        return repository.findAll();
+    public Page<Post> findAll(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return repository.findAllByOrderByCreateDate(pageable);
     }
 
     @Transactional(readOnly = true)
