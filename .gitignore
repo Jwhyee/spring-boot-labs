@@ -8,6 +8,7 @@ out/
 .idea/
 build/
 application.yaml
+application-test.yaml
 
 ### STS ###
 .apt_generated
