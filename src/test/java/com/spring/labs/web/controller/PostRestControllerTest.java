@@ -34,7 +34,7 @@ class PostRestControllerTest {
     }
 
     @Test
-    @DisplayName("Post 저장")
+    @DisplayName("Post 저장 테스트")
     public void testCreateNewPost() throws Exception {
         // given //
         PostDto postDto = createDto();
@@ -67,6 +67,38 @@ class PostRestControllerTest {
                 .writeValueAsString(dto)+ "\n");
 
         // 반환된 데이터 검증
+        assertThat(dto.title()).isEqualTo("Test Title");
+    }
+
+    @Test
+    @DisplayName("Post 조회 테스트")
+    public void testShowPostById() throws Exception {
+        // given //
+        PostDto postDto = createDto();
+        String postDtoJson = objectMapper.writeValueAsString(postDto);
+
+        MvcResult saveResult = mockMvc.perform(post("/api/post")
+                        .content(postDtoJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String saveResponseJson = saveResult.getResponse().getContentAsString();
+        ResponseData.ApiResult<?> saveResponse = objectMapper.readValue(saveResponseJson, ResponseData.ApiResult.class);
+        PostDto savedPost = objectMapper.convertValue(saveResponse.data(), PostDto.class);
+
+        // when //
+        MvcResult getResult = mockMvc.perform(get("/api/post/{id}", savedPost.id()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String getResponseJson = getResult.getResponse().getContentAsString();
+        ResponseData.ApiResult<?> getResponse = objectMapper.readValue(getResponseJson, ResponseData.ApiResult.class);
+        PostDto dto = objectMapper.convertValue(getResponse.data(), PostDto.class);
+
+        // then //
+        System.out.println("\n response = " + objectMapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(dto)+ "\n");
         assertThat(dto.title()).isEqualTo("Test Title");
     }
 
