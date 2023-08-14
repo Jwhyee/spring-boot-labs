@@ -30,7 +30,7 @@ class PostRestControllerTest {
     private ObjectMapper objectMapper;
 
     private PostDto createDto() {
-        return new PostDto(null, "Test Title", "Test Content", "tag1, tag2", null, null, null);
+        return new PostDto(null, "Test Title", "Test Content",  null, null, null);
     }
 
     @Test
