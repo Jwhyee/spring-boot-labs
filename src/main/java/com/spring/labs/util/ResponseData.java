@@ -6,6 +6,10 @@ import org.springframework.http.HttpStatus;
 
 public class ResponseData {
 
+    private ResponseData() {
+        throw new AssertionError("객체 생성 불가 클래스입니다.");
+    }
+
      /* <T> ApiResult<T>
     T : 제네릭 타입 -> 메소드 매개변수로 제네릭 타입을 받을 수 있음
     <T> : 메소드 매개변수로 제네릭 타입을 받을 수 있게 해줌
