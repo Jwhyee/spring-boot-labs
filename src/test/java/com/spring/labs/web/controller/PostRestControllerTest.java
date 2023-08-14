@@ -30,7 +30,7 @@ class PostRestControllerTest {
     private ObjectMapper objectMapper;
 
     private PostDto createDto() {
-        return new PostDto(null, "Test Title", "Test Content",  null, null, null);
+        return new PostDto(null, "Macbook M2 Pro", "Hello World!",  null, null, null);
     }
 
     @Test
@@ -67,7 +67,7 @@ class PostRestControllerTest {
                 .writeValueAsString(dto)+ "\n");
 
         // 반환된 데이터 검증
-        assertThat(dto.title()).isEqualTo("Test Title");
+        assertThat(dto.title()).isEqualTo("Macbook M2 Pro");
     }
 
     @Test
@@ -99,7 +99,7 @@ class PostRestControllerTest {
         // then //
         System.out.println("\n response = " + objectMapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto)+ "\n");
-        assertThat(dto.title()).isEqualTo("Test Title");
+        assertThat(dto.title()).isEqualTo("Macbook M2 Pro");
     }
 
 }
