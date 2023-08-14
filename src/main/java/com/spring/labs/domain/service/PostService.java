@@ -2,7 +2,6 @@ package com.spring.labs.domain.service;
 
 import com.spring.labs.domain.entity.post.Post;
 import com.spring.labs.domain.entity.post.PostRepository;
-import com.spring.labs.domain.entity.tag.Tag;
 import com.spring.labs.domain.web.dto.PostDto;
 import com.spring.labs.domain.web.exception.IdNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -37,30 +33,12 @@ public class PostService {
 
     @Transactional
     public Post savePost(PostDto dto) {
-        Set<Tag> tagSet = getTagFromString(dto.tag());
         Post newPost = Post.builder()
                 .title(dto.title())
                 .content(dto.content())
-                .tag(tagSet)
                 .build();
 
-        for (Tag tag : tagSet) {
-            tag.setPost(newPost);
-        }
-
         return repository.save(newPost);
-    }
-
-    @Transactional
-    public Set<Tag> getTagFromString(String tag) {
-        Set<String> strSet = Arrays.stream(tag.split(","))
-                .map(String::trim)
-                .map(String::toUpperCase)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-
-        return strSet.stream()
-                .map(tagName -> Tag.builder().name(tagName).build())
-                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Transactional
