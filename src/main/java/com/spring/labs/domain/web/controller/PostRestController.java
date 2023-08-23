@@ -32,7 +32,7 @@ public class PostRestController {
     @GetMapping("/{id}")
     public ResponseData.ApiResult<PostDto> showPostById(@PathVariable Long id) {
         Post currentPost = service.findById(id);
-        List<Map<String, String>> sim = naverSearchApi.getResult(currentPost.getTitle(), 5, "sim");
+        List<Map<String, String>> sim = naverSearchApi.getResult(currentPost.getTitle());
         return ResponseData.success(currentPost.of().clone(sim), "조회 완료");
     }
 
